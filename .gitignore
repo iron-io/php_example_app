@@ -1,1 +1,3 @@
 *.swp
+worker/config.ini
+code/*.zip

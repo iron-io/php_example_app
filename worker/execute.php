@@ -5,6 +5,6 @@ function getTweet($query) {
 }
 
 $config = parse_ini_file('config.ini', true);
-print_r(getTweet($config['query']));
+print_r(getTweet($config['twitter']['query']));
 
 ?>
