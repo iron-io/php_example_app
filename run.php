@@ -1,6 +1,6 @@
 <?php
 
-include("SimpleWorker.class.php");
+include("lib/IronWorker/SimpleWorker.class.php");
 
 $name = "tweetworker.php-".microtime(true);
 

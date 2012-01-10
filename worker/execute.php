@@ -1,10 +1,22 @@
 <?php
 
+include("lib/IronMQ/IronMQ.class.php");
+
 function getTweet($query) { 
-    return file_get_contents("http://search.twitter.com/search.json?q=".$query."&rpp=1");
+    $results = file_get_contents("http://search.twitter.com/search.json?q=".$query."&rpp=1");
+    return $results["results"][0];
 }
 
 $config = parse_ini_file('config.ini', true);
-print_r(getTweet($config['twitter']['query']));
+echo "Searching for ".$config['twitter']['query']."...";
+
+$tweet = getTweet($config['twitter']['query']);
+print_r($tweet);
+
+$mq = new IronMQ('config.ini', true);
+
+$response = $mq->postMessage('', "TweetWorker", array("body" => $tweet["text"]));
+
+print_r($response);
 
 ?>

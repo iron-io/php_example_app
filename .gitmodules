@@ -1,6 +1,9 @@
 [submodule "lib/IronWorker"]
 	path = lib/IronWorker
 	url = git://github.com/iron-io/iron_worker_php.git
-[submodule "lib/IronMQ"]
-	path = lib/IronMQ
+[submodule "lib/worker/IronMQ"]
+	path = lib/worker/IronMQ
+	url = git://github.com/iron-io/iron_mq_php.git
+[submodule "worker/lib/IronMQ"]
+	path = worker/lib/IronMQ
 	url = git://github.com/iron-io/iron_mq_php.git
