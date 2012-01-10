@@ -14,7 +14,7 @@ echo "Searching for ".$config['twitter']['query']."...";
 $tweet = getTweet($config['twitter']['query']);
 print_r($tweet);
 
-$mq = new IronMQ('config.ini', true);
+$mq = new IronMQ(__DIR__.'/config.ini', true);
 
 $response = $mq->postMessage('', "TweetWorker", array("body" => $tweet->text));
 
