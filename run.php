@@ -1,28 +1,33 @@
 <?php
+$headers = getallheaders();
+$is_ajax = array_key_exists("X-Requested-With", $headers) && $headers['X-Requested-With'] == 'XMLHttpRequest';
 
-include("lib/IronWorker/SimpleWorker.class.php");
+if($_SERVER['REQUEST_METHOD'] == "POST") {
+    include("lib/IronWorker/IronWorker.class.php");
 
-$name = "tweetworker.php-".microtime(true);
+    $name = "TweetWorker.php";
 
-$worker = new SimpleWorker('worker/config.ini');
-$worker->debug_enabled = true;
+    $worker = new IronWorker('worker/config.ini');
+    $worker->debug_enabled = false;
 
-$project_id = ""; # using default project_id from config
-$zipName = "code/$name.zip";
+    $zipName = "code/$name.zip";
 
-$zipFile = SimpleWorker::zipDirectory(dirname(__FILE__)."/worker", $zipName, true);
+    $zipFile = IronWorker::zipDirectory(dirname(__FILE__)."/worker", $zipName, true);
 
-$res = $worker->postCode($project_id, "execute.php", $zipName, $name);
+    $res = $worker->postCode("execute.php", $zipName, $name);
 
-$task_id = $worker->postTask($project_id, $name, null);
-echo "task_id = $task_id \n";
-sleep(15);
-$details = $worker->getTaskDetails($project_id, $task_id);
-print_r($details);
-
-if($details->status != 'queued') {
-    $log = $worker->getLog($project_id, $task_id);
-    print_r($log);
+    $task_id = $worker->postTask($name, null);
+    if($is_ajax) {
+        echo json_encode(array("task_id" => $task_id));
+    } else {
+        setcookie("task_id", $task_id);
+        header("Location: index.php");
+    }
+} else {
+    if($is_ajax) {
+        echo json_encode(array("error" => "Only POST requests are permitted."));
+    } else {
+        echo "Only POST requests are permitted.";
+    }
 }
-
 ?>
