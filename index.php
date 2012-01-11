@@ -9,6 +9,8 @@ if(!empty($message)) {
     $mq->deleteMessage($queue_name, $message->id);
 }
 
+$config = parse_ini_file('worker/config.ini', true);
+
 $headers = getallheaders();
 $is_ajax = array_key_exists("X-Requested-With", $headers) && $headers["X-Requested-With"] == "XMLHttpRequest";
 
@@ -206,7 +208,6 @@ if($is_ajax) {
 </head>
 
 <body>
-
 <img src="images/twitter_bird.png" alt="" style="position: absolute;top: 320px;left: 200px;opacity: .5;.;width: 50px;">
 <img src="images/twitter_bird.png" alt="" style="position: absolute;top: 600px;left: 100px;opacity: .5;.;width: 30px;">
 <img src="images/twitter_bird.png" alt="" style="position: absolute;top: 110px;left: 1060px;opacity: .5;.;width: 30px;">
@@ -254,7 +255,7 @@ if($is_ajax) {
         and <a href="http://www.iron.io/products/worker">IronWorker</a> together. If you click
         the &quot;Run TweetWorker&quot; button above, that will queue up a
         <a href="https://github.com/iron-io/heroku_sinatra_example/blob/master/workers/tweet_worker.rb">TweetWorker</a> task
-        on IronWorker. TweetWorker is a worker that gets the latest tweet tagged with #cloud and push that
+        on IronWorker. TweetWorker is a worker that gets the latest tweet tagged with <?php echo urldecode($config['twitter']['query']); ?> and pushes that
         tweet onto a queue on IronMQ.
         <br/><br/>
         This page you are looking at grabs tweets off the same queue on IronMQ and displays them. To see
