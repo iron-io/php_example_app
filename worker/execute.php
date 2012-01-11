@@ -16,7 +16,7 @@ print_r($tweet);
 
 $mq = new IronMQ(__DIR__.'/config.ini', true);
 
-$response = $mq->postMessage('', "TweetWorker", array("body" => $tweet->text));
+$response = $mq->postMessage("TweetWorker", $tweet->text);
 
 print_r($response);
 
