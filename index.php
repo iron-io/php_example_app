@@ -206,7 +206,6 @@ if($is_ajax) {
 
 
 </head>
-
 <body>
 <img src="images/twitter_bird.png" alt="" style="position: absolute;top: 320px;left: 200px;opacity: .5;.;width: 50px;">
 <img src="images/twitter_bird.png" alt="" style="position: absolute;top: 600px;left: 100px;opacity: .5;.;width: 30px;">
